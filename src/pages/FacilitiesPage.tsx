@@ -91,49 +91,68 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({ onOpenBooking, o
 
       {/* Comprehensive Facilities Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {FACILITIES_DATA.map((facility) => (
-          <div
-            key={facility.id}
-            className="bg-[#160b24] p-8 rounded-2xl border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all space-y-6 flex flex-col justify-between group shadow-xl"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="w-14 h-14 rounded-2xl bg-[#211136] border border-[#d4af37]/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  {getFacilityIcon(facility.iconName)}
-                </div>
-                {facility.badge && (
-                  <span className="text-xs font-semibold text-[#f3e5ab] bg-[#211136] px-3 py-1 rounded-full border border-[#d4af37]/30">
-                    {facility.badge}
-                  </span>
-                )}
-              </div>
+        {FACILITIES_DATA.map((facility) => {
+          let cardImg = facility.image;
+          if (!cardImg && facility.id === 'reception') cardImg = HOTEL_INFO.receptionImage;
+          if (!cardImg && facility.id === 'housekeeping') cardImg = HOTEL_INFO.spaImage;
+          if (!cardImg && facility.id === 'lounge') cardImg = HOTEL_INFO.loungeImage;
 
-              <div>
-                <h3 className="font-serif font-bold text-xl text-white mb-2">
-                  {facility.name}
-                </h3>
+          return (
+            <div
+              key={facility.id}
+              className="bg-[#160b24] rounded-2xl border border-[#d4af37]/25 hover:border-[#d4af37]/60 transition-all space-y-4 flex flex-col justify-between group shadow-xl overflow-hidden"
+            >
+              {cardImg && (
+                <div className="relative h-48 overflow-hidden">
+                  <img src={cardImg} alt={facility.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#160b24] via-transparent to-transparent opacity-80" />
+                  {facility.badge && (
+                    <span className="absolute top-3 right-3 text-[10px] font-semibold text-[#f3e5ab] bg-[#0d0614]/80 backdrop-blur-md px-3 py-1 rounded-full border border-[#d4af37]/30">
+                      {facility.badge}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <div className="p-6 pt-2 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-[#211136] border border-[#d4af37]/30 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                    {getFacilityIcon(facility.iconName)}
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-bold text-lg text-white">
+                      {facility.name}
+                    </h3>
+                    {!cardImg && facility.badge && (
+                      <span className="text-[10px] font-semibold text-[#f3e5ab] bg-[#211136] px-2 py-0.5 rounded border border-[#d4af37]/30 inline-block mt-0.5">
+                        {facility.badge}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {facility.detailedDescription}
                 </p>
+
+                <div className="pt-3 border-t border-[#d4af37]/15 space-y-2">
+                  <span className="text-[10px] uppercase tracking-wider text-[#d4af37] font-semibold block">
+                    Feature Highlights:
+                  </span>
+                  <ul className="space-y-1.5 text-xs text-slate-300">
+                    {facility.features.map((feat, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
 
-            <div className="pt-4 border-t border-[#d4af37]/15 space-y-2">
-              <span className="text-[10px] uppercase tracking-wider text-[#d4af37] font-semibold block">
-                Feature Highlights:
-              </span>
-              <ul className="space-y-1.5 text-xs text-slate-300">
-                {facility.features.map((feat, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
-                    <span>{feat}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
-
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Additional Services Banner */}

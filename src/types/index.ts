@@ -6,6 +6,7 @@ export interface Room {
   category: 'Deluxe' | 'Suite' | 'Penthouse' | 'Twin';
   priceMYR: number;
   image: string;
+  galleryImages?: string[];
   bedType: string;
   capacity: number;
   sizeSqM: number;
@@ -23,6 +24,7 @@ export interface Facility {
   description: string;
   detailedDescription: string;
   image?: string;
+  galleryImages?: string[];
   badge?: string;
   features: string[];
 }
@@ -55,9 +57,11 @@ export interface Attraction {
 export interface GalleryItem {
   id: string;
   title: string;
-  category: 'Ipoh & Heritage' | 'Hotel Rooms & Suites' | 'Malaysian Food & Coffee' | 'Limestone Caves & Nature';
+  category: 'Ipoh & Heritage' | 'Hotel Rooms & Suites' | 'Malaysian Food & Coffee' | 'Limestone Caves & Nature' | 'Boutique Amenities & Spa' | 'Nightlife & Twilight';
   location: string;
   description: string;
   image: string;
+  galleryImages?: string[];
+  tags?: string[];
   featured?: boolean;
 }

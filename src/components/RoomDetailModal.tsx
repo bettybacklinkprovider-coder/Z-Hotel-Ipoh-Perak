@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Room } from '../types';
 import { HOTEL_INFO } from '../data/hotelData';
-import { X, Users, Maximize2, Bed, Eye, Check, Calendar, Sparkles } from 'lucide-react';
+import { X, Users, Maximize2, Bed, Eye, Check, Calendar, Sparkles, ChevronLeft, ChevronRight, Images } from 'lucide-react';
 
 interface RoomDetailModalProps {
   room: Room | null;
@@ -10,29 +10,71 @@ interface RoomDetailModalProps {
 }
 
 export const RoomDetailModal: React.FC<RoomDetailModalProps> = ({ room, onClose, onBookRoom }) => {
+  const [activeImageIdx, setActiveImageIdx] = useState<number>(0);
+
   if (!room) return null;
+
+  const imagesList = room.galleryImages && room.galleryImages.length > 0
+    ? room.galleryImages
+    : [room.image];
+
+  const currentImg = imagesList[activeImageIdx] || room.image;
+
+  const handlePrevImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveImageIdx((prev) => (prev === 0 ? imagesList.length - 1 : prev - 1));
+  };
+
+  const handleNextImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveImageIdx((prev) => (prev === imagesList.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-[#160b24] border border-[#d4af37]/40 rounded-2xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-4xl bg-[#160b24] border border-[#d4af37]/40 rounded-2xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
         
-        {/* Header Image Overlay */}
-        <div className="relative h-64 sm:h-80 w-full overflow-hidden">
+        {/* Header Image Overlay Carousel */}
+        <div className="relative h-72 sm:h-96 w-full overflow-hidden bg-black group">
           <img
-            src={room.image}
+            src={currentImg}
             alt={room.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-all duration-300"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#160b24] via-[#160b24]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#160b24] via-[#160b24]/30 to-transparent" />
           
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2.5 bg-[#0d0614]/80 text-white hover:text-[#d4af37] rounded-full border border-[#d4af37]/30 transition-colors z-10"
+            className="absolute top-4 right-4 p-2.5 bg-[#0d0614]/80 text-white hover:text-[#d4af37] rounded-full border border-[#d4af37]/30 transition-colors z-20"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="absolute bottom-4 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          {/* Navigation Arrows for Room Photos */}
+          {imagesList.length > 1 && (
+            <>
+              <button
+                onClick={handlePrevImg}
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-[#0d0614]/70 text-[#f3e5ab] hover:bg-[#211136] border border-[#d4af37]/40 transition-colors z-10"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleNextImg}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-[#0d0614]/70 text-[#f3e5ab] hover:bg-[#211136] border border-[#d4af37]/40 transition-colors z-10"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
+
+          {/* Photo Counter Badge */}
+          <div className="absolute top-4 left-4 z-10 bg-[#0d0614]/80 text-[#f3e5ab] text-xs px-3 py-1 rounded-full border border-[#d4af37]/30 flex items-center gap-1.5">
+            <Images className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span>Photo {activeImageIdx + 1} of {imagesList.length}</span>
+          </div>
+
+          <div className="absolute bottom-4 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2 z-10">
             <div>
               <span className="text-xs font-semibold text-[#d4af37] uppercase tracking-widest bg-[#0d0614]/80 px-2.5 py-1 rounded border border-[#d4af37]/30 inline-block mb-2">
                 {room.category} Category
@@ -49,6 +91,25 @@ export const RoomDetailModal: React.FC<RoomDetailModalProps> = ({ room, onClose,
             </div>
           </div>
         </div>
+
+        {/* Room Photo Thumbnails Strip */}
+        {imagesList.length > 1 && (
+          <div className="px-6 pt-4 flex items-center gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#d4af37]/30">
+            {imagesList.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveImageIdx(idx)}
+                className={`relative shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                  activeImageIdx === idx
+                    ? 'border-[#d4af37] ring-2 ring-[#d4af37]/50 scale-105'
+                    : 'border-transparent opacity-60 hover:opacity-100'
+                }`}
+              >
+                <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Content Body */}
         <div className="p-6 space-y-6">

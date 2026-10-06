@@ -74,7 +74,7 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({ onOpenBooking, onViewRoomD
           >
             <div>
               {/* Room Image Container */}
-              <div className="relative h-64 sm:h-72 overflow-hidden">
+              <div className="relative h-64 sm:h-72 overflow-hidden cursor-pointer" onClick={() => onViewRoomDetail(room)}>
                 <img
                   src={room.image}
                   alt={room.name}
@@ -82,8 +82,14 @@ export const RoomsPage: React.FC<RoomsPageProps> = ({ onOpenBooking, onViewRoomD
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#160b24] via-transparent to-transparent" />
                 
-                <div className="absolute top-4 left-4 bg-[#0d0614]/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-[#f3e5ab] border border-[#d4af37]/30">
-                  {room.category} Class
+                <div className="absolute top-4 left-4 bg-[#0d0614]/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-[#f3e5ab] border border-[#d4af37]/30 flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-[#d4af37]" />
+                  <span>{room.category} Class</span>
+                  {room.galleryImages && room.galleryImages.length > 1 && (
+                    <span className="text-[10px] text-slate-300 ml-1 bg-[#211136] px-1.5 py-0.5 rounded-full border border-[#d4af37]/20">
+                      {room.galleryImages.length} Photos
+                    </span>
+                  )}
                 </div>
 
                 <div className="absolute top-4 right-4 bg-[#0d0614]/90 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold text-white border border-[#d4af37]/40 font-serif">
