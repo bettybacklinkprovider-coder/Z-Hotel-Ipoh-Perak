@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Cinzel', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #0d0614;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif-luxury {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom Luxury Helpers */
+.bg-purple-deep {
+  background-color: #0d0614;
+}
+
+.bg-purple-card {
+  background-color: #160b24;
+}
+
+.bg-purple-surface {
+  background-color: #211136;
+}
+
+.text-gold {
+  color: #d4af37;
+}
+
+.text-gold-light {
+  color: #f3e5ab;
+}
+
+.border-gold {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.border-gold-strong {
+  border-color: #d4af37;
+}
+
+/* Gold Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa7c11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #e5c158 0%, #d4af37 50%, #b8860b 100%);
+}
+
+.gold-gradient-bg-hover:hover {
+  background: linear-gradient(135deg, #f3e5ab 0%, #e5c158 50%, #c5a028 100%);
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to right, #d4af37, #f3e5ab, #d4af37) 1;
+}
+
+/* Glassmorphism Effect */
+.glass-panel {
+  background: rgba(22, 11, 36, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.glass-panel-glow {
+  background: rgba(33, 17, 54, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(13, 6, 20, 0.5), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0614;
+}
+::-webkit-scrollbar-thumb {
+  background: #25123e;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}

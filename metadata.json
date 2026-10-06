@@ -1,0 +1,6 @@
+{
+  "name": "Z Hotel Ipoh Perak",
+  "description": "Premium luxury boutique hotel in Ipoh, Perak, Malaysia. Experience dark purple and rich golden luxury with world-class amenities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
